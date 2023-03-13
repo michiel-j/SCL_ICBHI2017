@@ -12,7 +12,7 @@ Put the data files in the data folder
 Put the pretrained pth files in the panns folder
 
 ## Metadata:
-Optinal : ```metadata.py``` creates a metadata file in the data folder
+Optinal : ```metadata.py``` creates a metadata file in the data folder. \
 I got feedback of some people having trouble creating the metadata file, I have added it directly in the data folder.
 
 ## Training:
