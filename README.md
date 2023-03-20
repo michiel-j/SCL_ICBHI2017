@@ -1,6 +1,8 @@
-# Supervised Contrastive Learning for Respiratory Sound Classification
+# Learning Audio Features with Metadata and Contrastive Learning
 -----
-This is the official pytorch implementation of our work [Supervised Contrastive Learning for Respiratory Sound Classification](https://arxiv.org/abs/2210.16192)
+This is the official pytorch implementation of our work [Learning Audio Features with Metadata and Contrastive Learning](https://arxiv.org/abs/2210.16192)
+
+NB : this repository will be updated soon to add M-SCL
 
 ## Dependencies:
 Launch : ```pip install -r requirements.txt```
