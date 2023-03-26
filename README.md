@@ -54,7 +54,7 @@ We report results over 10 identical runs:
 ## To cite this work:
 ```
 @misc{scl_icbhi2017,
-      title={Supervised Contrastive Learning for Respiratory Sound Classification}, 
+      title={Learning Audio Features with Metadata and Contrastive Learning}, 
       author={Ilyass Moummad and Nicolas Farrugia},
       year={2022},
       eprint={2210.16192},
