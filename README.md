@@ -53,7 +53,7 @@ We report results over 10 identical runs:
 
 ## To cite this work:
 ```
-@misc{scl_icbhi2017,
+@Article{scl_icbhi2017,
       title={Learning Audio Features with Metadata and Contrastive Learning}, 
       author={Ilyass Moummad and Nicolas Farrugia},
       year={2022},
