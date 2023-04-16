@@ -11,8 +11,8 @@ Launch : ```pip install -r requirements.txt```
 Put the data files in the data folder
 
 ## Pretrained models:
-Put the pretrained pth files in the panns folder
-Here is the link to download the weights for PANNs :https://zenodo.org/record/3987831
+Put the pretrained pth files in the panns folder. \
+Here is the link to download the weights for PANNs: https://zenodo.org/record/3987831 \
 My code supports CNN6, CNN10 and CNN14 with the corresponding weights "Cnn6_mAP=0.343.pth", "Cnn10_mAP=0.380.pth" and "Cnn14_mAP=0.431.pth"
 
 ## Metadata:
