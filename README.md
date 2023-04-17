@@ -29,7 +29,7 @@ Check ```args.py``` for more arguments.
 ### Reproducibility:
 To reproduce our results, keep all arguments by default value except the learning rate (and the generic arguments such as the number of workers to be used and the desired device to train on). \
 To train from scratch, launch the following script : ```python main.py --scratch --lr 1e-3 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
-To train using AudioSet intialization, launch the following script : ```python main.py --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone.
+To train using AudioSet intialization, launch the following script : ```python main.py --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
 To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--mscl --metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', per default 'sa' will be selected to use both sex and age for the auxiliary task, as well as the tradeoff for the two losses.
 
 ## Quantitative Results
