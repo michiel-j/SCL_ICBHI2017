@@ -4,6 +4,7 @@ parser = argparse.ArgumentParser()
 
 #Generic
 parser.add_argument("--method", type=str, default='sl') #method in ['sl','scl','hybrid']
+parser.add_argument("--mscl", action='store_true') #use scl on metadata + scl on class
 parser.add_argument("--device", type=str, default="cuda:0") #device to train on
 parser.add_argument("--workers", type=int, default=3) #number of workers
 parser.add_argument("--bs", type=int, default=128) #batch size
@@ -19,6 +20,7 @@ parser.add_argument("--weightspath", type=str, default='panns') #path to cnn6, c
 #Data
 parser.add_argument("--datapath", type=str, default='data') # path of ICBHI dataset
 parser.add_argument("--metadata", type=str, default='metadata.csv') #metadata file
+parser.add_argument("--metalabel", type=str, default='sa') #meta label used for mscl, 's' stands for sex, 'a' for age, and 'c' for respiratory class 
 parser.add_argument("--samplerate", type=int, default=16000) #sampling rate
 parser.add_argument("--duration", type=int, default=8) #max duration of audio for train/test
 parser.add_argument("--pad", type=str, default='circular') #audio padding in ['zero','circular']
@@ -38,5 +40,6 @@ parser.add_argument("--timestripes", type=int, default=2) #time stripes for spec
 #Parameter
 parser.add_argument("--tau", type=float, default=0.06) #temperature for nt xent loss
 parser.add_argument("--alpha", type=float, default=0.5) #tradeoff between cross entropy and nt xent
+parser.add_argument("--lam", type=float, default=0.75) #tradeoff between scl label and scl metadata
 
 args = parser.parse_args()

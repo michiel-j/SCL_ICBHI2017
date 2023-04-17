@@ -21,7 +21,7 @@ label 3 for both
 """
 
 class ICBHI(Dataset):
-    def __init__(self, data_path, split, metadatafile=METADATA_CSV, duration=DESIRED_DURATION, samplerate=DESIRED_SR, device="cpu", fade_samples_ratio=16, pad_type="circular"):
+    def __init__(self, data_path, split, metadatafile=METADATA_CSV, duration=DESIRED_DURATION, samplerate=DESIRED_SR, device="cpu", fade_samples_ratio=16, pad_type="circular", meta_label=""):
 
         self.data_path = data_path
         self.csv_path = os.path.join(self.data_path, metadatafile)
@@ -31,6 +31,7 @@ class ICBHI(Dataset):
             self.df = self.df[(self.df["split"] == self.split)]
         elif self.split == 'test':
             self.df = self.df[(self.df["split"] == self.split)]
+        self.meta_label = meta_label
         self.duration = duration
         self.samplerate = samplerate
         self.targetsample = self.duration * self.samplerate
@@ -40,19 +41,23 @@ class ICBHI(Dataset):
         self.fade_samples = int(self.samplerate/self.fade_samples_ratio)
         self.fade = T.Fade(fade_in_len=self.fade_samples, fade_out_len=self.fade_samples, fade_shape='linear')
         self.fade_out = T.Fade(fade_in_len=0, fade_out_len=self.fade_samples, fade_shape='linear')
-        self.pth_path = os.path.join(self.data_path, "icbhi-4"+str(self.split)+'_duration'+str(self.duration)+".pth")
+        self.meta_label = meta_label
+        if self.meta_label != "":
+            self.pth_path = os.path.join(self.data_path, "icbhi-4"+str(self.split)+'_duration'+str(self.duration)+"_metalabel-"+str(meta_label)+".pth")
+        else:
+            self.pth_path = os.path.join(self.data_path, "icbhi-4"+str(self.split)+'_duration'+str(self.duration)+".pth")
 
         if os.path.exists(self.pth_path):
             print(f"Loading dataset {self.split}...")
             pth_dataset = torch.load(self.pth_path)
-            self.data, self.labels, self.rec_equips = pth_dataset['data'].to(self.device), pth_dataset['label'].to(self.device), pth_dataset['rec_equip']
-            #self.data = self.data[...,:self.max_targetsample]
+            #self.data, self.labels, self.metadata_labels = pth_dataset['data'].to(self.device), pth_dataset['label'].to(self.device), pth_dataset['meta_label'].to(self.device)
+            self.data, self.labels, self.metadata_labels = pth_dataset['data'], pth_dataset['label'], pth_dataset['meta_label']
             print(f"Dataset {self.split} loaded !")
         else:
             print(f"File {self.pth_path} does not exist. Creating dataset...")         
-            self.data, self.labels, self.rec_equips = self.get_dataset()
-            data_dict = {"data": self.data, "label": self.labels, "rec_equip": self.rec_equips}
-            self.data, self.labels = self.data.to(self.device), self.labels.to(self.device)      
+            self.data, self.labels, self.metadata_labels = self.get_dataset()
+            data_dict = {"data": self.data, "label": self.labels, "meta_label": self.metadata_labels}
+            #self.data, self.labels, self.metadata_labels = self.data.to(self.device), self.labels.to(self.device), self.metadata_labels.to(self.device)    
             print(f"Dataset {self.split} created !")
             torch.save(data_dict, self.pth_path)
             print(f"File {self.pth_path} Saved!")
@@ -67,7 +72,9 @@ class ICBHI(Dataset):
         offset = ith_row['offset']
         bool_wheezes = ith_row['wheezes']
         bool_crackles = ith_row['crackles']
-        rec_equip = ith_row['device']
+        #chest_loc = filepath[4:7]
+        #rec_equip = ith_row['device']
+        metadata_label = ith_row['sc_class_num']
 
         if not bool_wheezes:
             if not bool_crackles:
@@ -88,16 +95,17 @@ class ICBHI(Dataset):
             resample = T.Resample(sr, self.samplerate)
             audio = resample(audio)
         
-        return self.fade(audio), label, rec_equip
+        return self.fade(audio), label, metadata_label
 
     def get_dataset(self):
 
         dataset = []
         labels = []
-        rec_equips = []
+        metadata_labels = []
+        #rec_equips = []
 
         for i in range(len(self.df)):
-            audio, label, rec_equip = self.get_sample(i)   
+            audio, label, metadata_label = self.get_sample(i)   
             if audio.shape[-1] > self.targetsample:     
                 audio = audio[...,:self.targetsample]
             else:
@@ -113,12 +121,13 @@ class ICBHI(Dataset):
                     audio = tmp
             dataset.append(audio)
             labels.append(label)
-            rec_equips.append(rec_equip)
+            metadata_labels.append(metadata_label)
+            #rec_equips.append(rec_equip)
 
-        return torch.unsqueeze(torch.vstack(dataset), 1), torch.tensor(labels), rec_equips
+        return torch.unsqueeze(torch.vstack(dataset), 1), torch.tensor(labels), torch.tensor(metadata_labels)#rec_equips
         
     def __len__(self):
         return len(self.df)
 
     def __getitem__(self, idx):
-        return self.data[idx], self.labels[idx], self.rec_equips[idx]
+        return self.data[idx], self.labels[idx], self.metadata_labels[idx]

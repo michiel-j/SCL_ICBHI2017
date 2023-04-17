@@ -11,8 +11,11 @@ from utils import Normalize, Standardize
 from losses import SupConLoss, SupConCELoss
 from ce import train_ce
 from hybrid import train_supconce
-from scl import train_scl, linear_scl
 from args import args
+if args.mscl:
+    from mscl import train_scl, linear_scl
+else:
+    from scl import train_scl, linear_scl
 
 if not(os.path.isfile(os.path.join(args.datapath, args.metadata))):
     raise(IOError(f"CSV file {args.metadata} does not exist in {args.datapath}"))
@@ -34,6 +37,8 @@ if args.method == 'sl':
 else:
     embed_only = True
     projector = Projector(name=args.backbone, out_dim=DEFAULT_OUT_DIM, device=args.device)
+    if args.mscl:
+        projector2 = Projector(name=args.backbone, out_dim=DEFAULT_OUT_DIM, device=args.device)
     classifier = LinearClassifier(name=args.backbone, num_classes=DEFAULT_NUM_CLASSES, device=args.device)
     
 if args.backbone == 'cnn6':
@@ -69,7 +74,10 @@ val_loader = torch.utils.data.DataLoader(val_ds, batch_size=args.bs, shuffle=Fal
 if METHOD == 'sl':
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.wd)
 elif METHOD == 'scl':
-    optimizer = torch.optim.Adam(list(model.parameters()) + list(projector.parameters()), lr=args.lr, weight_decay=args.wd) 
+    if not args.mscl:
+        optimizer = torch.optim.Adam(list(model.parameters()) + list(projector.parameters()), lr=args.lr, weight_decay=args.wd)
+    else:
+        optimizer = torch.optim.Adam(list(model.parameters()) + list(projector.parameters()) + list(projector2.parameters()), lr=args.lr, weight_decay=args.wd)
     optimizer2 = torch.optim.Adam(classifier.parameters(), lr=args.lr2, weight_decay=args.wd)
 elif METHOD == 'hybrid':
     optimizer = torch.optim.Adam(list(model.parameters()) + list(classifier.parameters()) + list(projector.parameters()), lr=args.lr, weight_decay=args.wd)
@@ -91,8 +99,13 @@ if METHOD == 'sl':
 
 elif METHOD == 'scl':
     criterion = SupConLoss(temperature=args.tau, device=args.device)
-    ssl_train_losses, model, last_checkpoint = train_scl(model, projector, train_loader, train_transform, criterion, optimizer, scheduler, args.epochs)
-    history = linear_scl(model, last_checkpoint ,classifier, train_loader, val_loader, val_transform, criterion_ce, optimizer2, args.epochs2)
+    if not args.mscl:
+        ssl_train_losses, model, last_checkpoint = train_scl(model, projector, train_loader, train_transform, criterion, optimizer, scheduler, args.epochs)
+        history = linear_scl(model, last_checkpoint, classifier, train_loader, val_loader, val_transform, criterion_ce, optimizer2, args.epochs2)
+    else:
+        ssl_train_losses, model, last_checkpoint = train_scl(model, projector, projector2, train_loader, train_transform, criterion, optimizer, scheduler, args.epochs, args.lam)
+        history = linear_scl(model, last_checkpoint, classifier, train_loader, val_loader, val_transform, criterion_ce, optimizer2, args.epochs2)
+        del projector2
     del model; del projector; del classifier
     
 elif METHOD == 'hybrid':
