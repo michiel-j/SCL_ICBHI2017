@@ -2,8 +2,6 @@
 -----
 This is the official pytorch implementation of our work [Learning Audio Features with Metadata and Contrastive Learning](https://arxiv.org/abs/2210.16192)
 
-NB : this repository will be updated soon to add M-SCL
-
 ## Dependencies:
 Launch : ```pip install -r requirements.txt```
 
@@ -32,6 +30,7 @@ Check ```args.py``` for more arguments.
 To reproduce our results, keep all arguments by default value except the learning rate (and the generic arguments such as the number of workers to be used and the desired device to train on). \
 To train from scratch, launch the following script : ```python main.py --scratch --lr 1e-3 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
 To train using AudioSet intialization, launch the following script : ```python main.py --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone.
+To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--mscl --metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', per default 'sa' will be selected to use both sex and age for the auxiliary task, as well as the tradeoff for the two losses.
 
 ## Quantitative Results
 We optimized hyperparameters for CNN6, and we simply report CNN10 from scratch and pretrained CNN14 scores on ICBHI without any hyperparameter tuning. \
@@ -51,7 +50,8 @@ We report results over 10 identical runs:
 |   Cnn14  |   CE   | 75.63(4.13) | 38.13(5.07) | 57.32(0.54) |     75.4    |   AudioSet   |
 |          |   SCL  |  80.67(4.2) | 32.93(4.37) |  56.92(0.9) |             |              |
 |          | Hybrid | 80.73(3.86) | 34.96(3.59) | 57.85(0.48) |             |              |
-
+|:--------:|:------:|:-----------:|:-----------:|:-----------:|:-----------:|:------------:|
+|   Cnn6   |  M-SCL | 76.93(2.99) | 39.15(2.84) | 58.04(0.94) |     4.3     |   AudioSet   |
 
 ## To cite this work:
 ```
