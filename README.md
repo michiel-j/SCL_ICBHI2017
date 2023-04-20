@@ -30,7 +30,8 @@ Check ```args.py``` for more arguments.
 To reproduce our results, keep all arguments by default value except the learning rate (and the generic arguments such as the number of workers to be used and the desired device to train on). \
 To train from scratch, launch the following script : ```python main.py --scratch --lr 1e-3 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
 To train using AudioSet intialization, launch the following script : ```python main.py --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
-To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--mscl --metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', per default 'sa' will be selected to use both sex and age for the auxiliary task, as well as the tradeoff for the two losses.
+To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--mscl --metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', 'c' for respiratory class, 'sa', 'sc', 'ac', and 'sac' are supported, per default 'sa' will be selected to use both sex and age for the auxiliary task. the tradeoff for the main loss and the auxiliary loss can also be adjusted. 
+Try different auxiliary tasks as one can boost the performance better than the others, we haven't investigated all the options. To obtain the values of the last line of the table below, launch the following script : ```python main.py --lr 1e-4 --backbone cnn6 --method scl --mscl --metalabel sa --lam 0.75```
 
 ## Quantitative Results
 We optimized hyperparameters for CNN6, and we simply report CNN10 from scratch and pretrained CNN14 scores on ICBHI without any hyperparameter tuning. \

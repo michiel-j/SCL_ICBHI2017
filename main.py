@@ -65,8 +65,8 @@ train_transform = nn.Sequential(melspec, specaug, standardize)
 val_transform = nn.Sequential(melspec, standardize)
 
 # Dataset and dataloaders
-train_ds = ICBHI(data_path=args.datapath, metadatafile=args.metadata, duration=args.duration, split='train', device=args.device, samplerate=args.samplerate, pad_type=args.pad)
-val_ds = ICBHI(data_path=args.datapath, metadatafile=args.metadata, duration=args.duration, split='test', device=args.device, samplerate=args.samplerate, pad_type=args.pad)
+train_ds = ICBHI(data_path=args.datapath, metadatafile=args.metadata, duration=args.duration, split='train', device=args.device, samplerate=args.samplerate, pad_type=args.pad, meta_label=args.metalabel)
+val_ds = ICBHI(data_path=args.datapath, metadatafile=args.metadata, duration=args.duration, split='test', device=args.device, samplerate=args.samplerate, pad_type=args.pad, meta_label=args.metalabel)
 train_loader = torch.utils.data.DataLoader(train_ds, batch_size=args.bs, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_ds, batch_size=args.bs, shuffle=False)
 

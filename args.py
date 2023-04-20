@@ -9,7 +9,7 @@ parser.add_argument("--device", type=str, default="cuda:0") #device to train on
 parser.add_argument("--workers", type=int, default=3) #number of workers
 parser.add_argument("--bs", type=int, default=128) #batch size
 parser.add_argument("--epochs", type=int, default=400) #nb of epoches
-parser.add_argument("--epochs2", type=int, default=50) #nb of epoches for linear classifier of scl and hybrid
+parser.add_argument("--epochs2", type=int, default=100) #nb of epoches for linear classifier of scl and hybrid
 
 #Model
 parser.add_argument("--backbone", type=str, default='cnn6') #['cnn6','cnn10','cnn14]

@@ -74,7 +74,9 @@ class ICBHI(Dataset):
         bool_crackles = ith_row['crackles']
         #chest_loc = filepath[4:7]
         #rec_equip = ith_row['device']
-        metadata_label = ith_row['sc_class_num']
+        metalabel_colname = str(self.meta_label) + '_class_num'
+        metadata_label = ith_row[metalabel_colname]
+        #metadata_label = ith_row['sc_class_num']
 
         if not bool_wheezes:
             if not bool_crackles:
