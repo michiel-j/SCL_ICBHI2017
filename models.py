@@ -123,9 +123,9 @@ class _CNN6(nn.Module):
         if self.do_dropout:
             x = self.dropout(x)
 
-        x = torch.mean(x, dim=2) #mean over freq dim
-        (x1, _) = torch.max(x, dim=3) #max over time dim
-        x2 = torch.mean(x, dim=3) #mean over time dim (after mean over freq)
+        x = torch.mean(x, dim=3) #mean over time dim
+        (x1, _) = torch.max(x, dim=2) #max over freq dim
+        x2 = torch.mean(x, dim=2) #mean over freq dim (after mean over time)
         x = x1 + x2
 
         if self.embed_only:
@@ -173,9 +173,9 @@ class _CNN10(nn.Module):
         if self.do_dropout:
             x = self.dropout(x)
 
-        x = torch.mean(x, dim=2) #mean over freq dim
-        (x1, _) = torch.max(x, dim=3) #max over time dim
-        x2 = torch.mean(x, dim=3) #mean over time dim (after mean over freq)
+        x = torch.mean(x, dim=3) #mean over time dim
+        (x1, _) = torch.max(x, dim=2) #max over freq dim
+        x2 = torch.mean(x, dim=2) #mean over freq dim (after mean over time)
         x = x1 + x2
 
         if self.embed_only:
@@ -231,9 +231,9 @@ class _CNN14(nn.Module):
         if self.do_dropout:
             x = self.dropout(x)
 
-        x = torch.mean(x, dim=2) #mean over freq dim
-        (x1, _) = torch.max(x, dim=3) #max over time dim
-        x2 = torch.mean(x, dim=3) #mean over time dim (after mean over freq)
+        x = torch.mean(x, dim=3) #mean over time dim
+        (x1, _) = torch.max(x, dim=2) #max over freq dim
+        x2 = torch.mean(x, dim=2) #mean over freq dim (after mean over time)
         x = x1 + x2
 
         if self.embed_only:
