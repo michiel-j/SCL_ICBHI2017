@@ -1,6 +1,11 @@
-# Learning Audio Features with Metadata and Contrastive Learning
+# Pretraining Respiratory Sound Rrepresentations Using Metadata and Contrastive Learning
+Authors : Ilyass Moummad, Nicolas Farrugia
+
 -----
-This is the official pytorch implementation of our work [Learning Audio Features with Metadata and Contrastive Learning](https://arxiv.org/abs/2210.16192)
+Update : Our work is accepted for WASPAA 2023 (poster), we will update this repository to include M-SCL and SPRSound dataset
+-----
+
+This is the official pytorch implementation of our work [Pretraining Respiratory Sound Rrepresentations Using Metadata and Contrastive Learning](https://arxiv.org/abs/2210.16192)
 
 ## Dependencies:
 Launch : ```pip install -r requirements.txt```
