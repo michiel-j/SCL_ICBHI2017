@@ -7,7 +7,8 @@ def train_epoch_scl(encoder, projector, train_loader, train_transform, criterion
     epoch_loss = 0.0
 
     for data, target, _ in train_loader:
-
+        data, target = data.to(args.device), target.to(args.device)
+        
         with torch.no_grad():
             data_t1 = train_transform(data)
             data_t2 = train_transform(data)

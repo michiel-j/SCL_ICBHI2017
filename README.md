@@ -2,10 +2,10 @@
 Authors : Ilyass Moummad, Nicolas Farrugia
 
 -----
-Update : Our work is accepted for WASPAA 2023 (poster), we will update this repository to include M-SCL and SPRSound dataset
+Update : Our work is accepted for WASPAA 2023 (poster), we updated this repository to include M-SCL and SPRSound dataset
 -----
 
-This is the official pytorch implementation of our work [Pretraining Respiratory Sound Rrepresentations Using Metadata and Contrastive Learning](https://arxiv.org/abs/2210.16192)
+This is the official pytorch implementation of our work [Pretraining Respiratory Sound Representations using Metadata and Contrastive Learning](https://arxiv.org/abs/2210.16192)
 
 ## Dependencies:
 Launch : ```pip install -r requirements.txt```
@@ -16,27 +16,27 @@ Put the data files in the data folder
 ## Pretrained models:
 Put the pretrained pth files in the panns folder. \
 Here is the link to download the weights for PANNs: https://zenodo.org/record/3987831 \
-My code supports CNN6, CNN10 and CNN14 with the corresponding weights "Cnn6_mAP=0.343.pth", "Cnn10_mAP=0.380.pth" and "Cnn14_mAP=0.431.pth"
+This code supports CNN6, CNN10 and CNN14 with the corresponding weights "Cnn6_mAP=0.343.pth", "Cnn10_mAP=0.380.pth" and "Cnn14_mAP=0.431.pth"
 
 ## Metadata:
-Optional : ```metadata.py``` creates a metadata file in the data folder. \
-I got feedback of some people having trouble creating the metadata file, I have added it directly in the data folder.
+Metadata csv file for each dataset are in the corresponding folder of data folder. \
 
 ## Training:
 ```main.py``` launches the training
 ### Arguments:
-```--method METHOD```: the training method METHOD, ``sl`` for cross entropy, ``scl`` for supervised contrastive, and ``hybrid`` for a combination of both. \
+```--method METHOD```: the training method METHOD, ``sl`` for cross entropy, ``scl`` for supervised contrastive, ``hybrid`` for a combination of both, and ``mscl`` for multi-head supervised contrastive incorporating metadata. \
 ```--backbone BACKBONE```: the backbone to be used, ``cnn6``, ``cnn10`` or ``cnn14``. \
 ```--scratch```: to train from scratch (when this argument is not encountered, the models are intiailized using AudioSet weights). \
 ```--lr LR```: the learning rate for training. \
 ```--bs BS```: the batch size. \
 Check ```args.py``` for more arguments.
+
 ### Reproducibility:
 To reproduce our results, keep all arguments by default value except the learning rate (and the generic arguments such as the number of workers to be used and the desired device to train on). \
 To train from scratch, launch the following script : ```python main.py --scratch --lr 1e-3 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
 To train using AudioSet intialization, launch the following script : ```python main.py --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
-To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--mscl --metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', 'c' for respiratory class, 'sa', 'sc', 'ac', and 'sac' are supported, per default 'sa' will be selected to use both sex and age for the auxiliary task. the tradeoff for the main loss and the auxiliary loss can also be adjusted. 
-Try different auxiliary tasks as one can boost the performance better than the others, we haven't investigated all the options. To obtain the values of the last line of the table below, launch the following script : ```python main.py --lr 1e-4 --backbone cnn6 --method scl --mscl --metalabel sa --lam 0.75```
+To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', 'c' for respiratory class, 'sa' use both sex and age for the auxiliary task (default value which we recommend). the tradeoff for the main loss and the auxiliary loss can also be adjusted. 
+To obtain the values of the last line of the table below, launch the following script : ```python main.py --lr 1e-4 --backbone cnn6 --method scl --mscl --metalabel sa --lam 0.75```
 
 ## Quantitative Results
 We optimized hyperparameters for CNN6, and we simply report CNN10 from scratch and pretrained CNN14 scores on ICBHI without any hyperparameter tuning. \

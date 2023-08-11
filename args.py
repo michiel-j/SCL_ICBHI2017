@@ -18,9 +18,11 @@ parser.add_argument("--scratch", action='store_true') #train from scratch
 parser.add_argument("--weightspath", type=str, default='panns') #path to cnn6, cnn10 and cnn14 weights
 
 #Data
-parser.add_argument("--datapath", type=str, default='data') # path of ICBHI dataset
+parser.add_argument("--dataset", type=str, default='ICBHI') # which dataset to use ['ICBHI', 'SPRS']
+parser.add_argument("--mode", type=str, default='inter') # for SPRS dataset, there are two test splits ['inter', 'intra']
+parser.add_argument("--datapath", type=str, default='data/ICBHI') # path of the dataset files
 parser.add_argument("--metadata", type=str, default='metadata.csv') #metadata file
-parser.add_argument("--metalabel", type=str, default='sa') #meta label used for mscl, 's' stands for sex, 'a' for age, and 'c' for respiratory class 
+parser.add_argument("--metalabel", type=str, default='sa') #meta label used for mscl, 's' stands for sex, 'a' for age, and 'c' for respiratory class
 parser.add_argument("--samplerate", type=int, default=16000) #sampling rate
 parser.add_argument("--duration", type=int, default=8) #max duration of audio for train/test
 parser.add_argument("--pad", type=str, default='circular') #audio padding in ['zero','circular']

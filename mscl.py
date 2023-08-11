@@ -1,7 +1,7 @@
 import torch
 from args import args
     
-def train_epoch_scl(encoder, projector1, projector2, train_loader, train_transform, criterion, optimizer, scheduler, metatradeoff):
+def train_epoch_mscl(encoder, projector1, projector2, train_loader, train_transform, criterion, optimizer, scheduler, metatradeoff):
 
     epoch_loss = 0.0
 
@@ -28,7 +28,7 @@ def train_epoch_scl(encoder, projector1, projector2, train_loader, train_transfo
     
     return epoch_loss
 
-def train_scl(encoder, projector1, projector2, train_loader, train_transform, criterion, optimizer, scheduler, epochs, metatradeoff):
+def train_mscl(encoder, projector1, projector2, train_loader, train_transform, criterion, optimizer, scheduler, epochs, metatradeoff):
 
     best_loss = None
     train_losses = []
@@ -40,7 +40,7 @@ def train_scl(encoder, projector1, projector2, train_loader, train_transform, cr
     for i in range(1, epochs+1):
 
         print(f"Epoch {i}")
-        train_loss = train_epoch_scl(encoder, projector1, projector2, train_loader, train_transform, criterion, optimizer, scheduler, metatradeoff)
+        train_loss = train_epoch_mscl(encoder, projector1, projector2, train_loader, train_transform, criterion, optimizer, scheduler, metatradeoff)
         print(f"Current Train Loss : {format(train_loss, '.4f')}")
         train_losses.append(train_loss)  
 
@@ -126,7 +126,7 @@ def linear_eval_epoch(encoder, classifier, val_loader, val_transform, criterion)
 
     return epoch_loss, se, sp, icbhi_score, acc
 
-def linear_scl(encoder, checkpoint, classifier, train_loader, val_loader, val_transform, criterion, optimizer, epochs):
+def linear_mscl(encoder, checkpoint, classifier, train_loader, val_loader, val_transform, criterion, optimizer, epochs):
 
     train_losses = []; val_losses = []; train_se_scores = []; train_sp_scores = []; train_icbhi_scores = []; train_acc_scores = []; val_se_scores = []; val_sp_scores = []; val_icbhi_scores = []; val_acc_scores = []
 

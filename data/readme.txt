@@ -1,1 +1,1 @@
-Keep the data files here
+Store the data files for each dataset inside the corresponding directory
