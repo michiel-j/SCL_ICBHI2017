@@ -61,9 +61,9 @@ We report results over 10 identical runs:
 ## To cite this work:
 ```
 @Article{scl_icbhi2017,
-      title={Learning Audio Features with Metadata and Contrastive Learning}, 
+      title={Pretraining Respiratory Sound Representations using Metadata and Contrastive Learning}, 
       author={Ilyass Moummad and Nicolas Farrugia},
-      year={2022},
+      year={2023},
       eprint={2210.16192},
       archivePrefix={arXiv},
       primaryClass={cs.SD}}
