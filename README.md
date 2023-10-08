@@ -19,7 +19,7 @@ Here is the link to download the weights for PANNs: https://zenodo.org/record/39
 This code supports CNN6, CNN10 and CNN14 with the corresponding weights "Cnn6_mAP=0.343.pth", "Cnn10_mAP=0.380.pth" and "Cnn14_mAP=0.431.pth"
 
 ## Metadata:
-Metadata csv file for each dataset are in the corresponding folder of data folder. \
+Metadata csv file for each dataset are in the corresponding folder of data folder. 
 
 ## Training:
 ```main.py``` launches the training
