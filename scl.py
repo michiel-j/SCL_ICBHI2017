@@ -57,8 +57,12 @@ def linear_train_epoch(encoder, classifier, train_loader, val_transform, criteri
 
     epoch_loss = 0.0
     
-    TP = [0, 0, 0 ,0]
-    GT = [0, 0, 0, 0]
+    if args.dataset == 'ICBHI':
+        TP = [0, 0, 0 ,0]
+        GT = [0, 0, 0, 0]
+    elif args.dataset == 'SPRS':
+        TP = [0, 0, 0 ,0, 0, 0, 0]
+        GT = [0, 0, 0, 0, 0, 0, 0]
 
     classifier.train()
 
@@ -96,8 +100,12 @@ def linear_eval_epoch(encoder, classifier, val_loader, val_transform, criterion)
 
     epoch_loss = 0.0
 
-    TP = [0, 0, 0 ,0]
-    GT = [0, 0, 0, 0]
+    if args.dataset == 'ICBHI':
+        TP = [0, 0, 0 ,0]
+        GT = [0, 0, 0, 0]
+    elif args.dataset == 'SPRS':
+        TP = [0, 0, 0 ,0, 0, 0, 0]
+        GT = [0, 0, 0, 0, 0, 0, 0]
 
     classifier.eval()
     encoder.eval()

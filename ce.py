@@ -4,8 +4,13 @@ from args import args
 
 def train_epoch(model, train_loader, train_transform, criterion, optimizer, scheduler):
     
-    TP = [0, 0, 0 ,0]
-    GT = [0, 0, 0, 0]
+    if args.dataset == 'ICBHI':
+        TP = [0, 0, 0 ,0]
+        GT = [0, 0, 0, 0]
+    elif args.dataset == 'SPRS':
+        TP = [0, 0, 0 ,0, 0, 0, 0]
+        GT = [0, 0, 0, 0, 0, 0, 0]
+        FP = [0, 0, 0, 0, 0, 0, 0]
 
     epoch_loss = 0.0
 
@@ -45,8 +50,12 @@ def train_epoch(model, train_loader, train_transform, criterion, optimizer, sche
 
 def val_epoch(model, val_loader, val_transform, criterion):
 
-    TP = [0, 0, 0 ,0]
-    GT = [0, 0, 0, 0]
+    if args.dataset == 'ICBHI':
+        TP = [0, 0, 0 ,0]
+        GT = [0, 0, 0, 0]
+    elif args.dataset == 'SPRS':
+        TP = [0, 0, 0 ,0, 0, 0, 0]
+        GT = [0, 0, 0, 0, 0, 0, 0]
 
     epoch_loss = 0.0
 
