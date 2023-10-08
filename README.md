@@ -24,6 +24,8 @@ Metadata csv file for each dataset are in the corresponding folder of data folde
 ## Training:
 ```main.py``` launches the training
 ### Arguments:
+```--dataset```: to specificy which dataset to use, possible values are ``ICBHI`` and ``SPRS``. \
+If the dataset is SPRS, ```--mode``` specifies whether to use the inter-patient or intra-patient split, possible values are ``inter`` and ``intra``. \
 ```--method METHOD```: the training method METHOD, ``sl`` for cross entropy, ``scl`` for supervised contrastive, ``hybrid`` for a combination of both, and ``mscl`` for multi-head supervised contrastive incorporating metadata. \
 ```--backbone BACKBONE```: the backbone to be used, ``cnn6``, ``cnn10`` or ``cnn14``. \
 ```--scratch```: to train from scratch (when this argument is not encountered, the models are intiailized using AudioSet weights). \
@@ -33,10 +35,10 @@ Check ```args.py``` for more arguments.
 
 ### Reproducibility:
 To reproduce our results, keep all arguments by default value except the learning rate (and the generic arguments such as the number of workers to be used and the desired device to train on). \
-To train from scratch, launch the following script : ```python main.py --scratch --lr 1e-3 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
-To train using AudioSet intialization, launch the following script : ```python main.py --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
+To train from scratch, launch the following script : ```python main.py --dataset DATASET --scratch --lr 1e-3 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
+To train using AudioSet intialization, launch the following script : ```python main.py --dataset DATASET --lr 1e-4 --backbone BACKBONE --method METHOD``` using the desired training method and backbone. \
 To train using M-SCL (SCL with 2 heads, one for respiratory classification task and one for metadata task), add the following arguments : ```--metalabel metalabel --lam tradeoff``` using the desired metadata, the code supports sex 's' and age 'a', 'c' for respiratory class, 'sa' use both sex and age for the auxiliary task (default value which we recommend). the tradeoff for the main loss and the auxiliary loss can also be adjusted. 
-To obtain the values of the last line of the table below, launch the following script : ```python main.py --lr 1e-4 --backbone cnn6 --method scl --mscl --metalabel sa --lam 0.75```
+To obtain the values of the last line of the table below, launch the following script : ```python main.py --dataset DATASET --lr 1e-4 --backbone cnn6 --method scl --mscl --metalabel sa --lam 0.75```
 
 ## Quantitative Results
 We optimized hyperparameters for CNN6, and we simply report CNN10 from scratch and pretrained CNN14 scores on ICBHI without any hyperparameter tuning. \
@@ -60,11 +62,13 @@ We report results over 10 identical runs:
 
 ## To cite this work:
 ```
-@Article{scl_icbhi2017,
-      title={Pretraining Respiratory Sound Representations using Metadata and Contrastive Learning}, 
-      author={Ilyass Moummad and Nicolas Farrugia},
-      year={2023},
-      eprint={2210.16192},
-      archivePrefix={arXiv},
-      primaryClass={cs.SD}}
+@INPROCEEDINGS{10248130,
+  author={Moummad, Ilyass and Farrugia, Nicolas},
+  booktitle={2023 IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (WASPAA)}, 
+  title={Pretraining Respiratory Sound Representations using Metadata and Contrastive Learning}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-5},
+  doi={10.1109/WASPAA58266.2023.10248130}}
 ```
