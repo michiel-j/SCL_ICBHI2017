@@ -1,4 +1,4 @@
-# Pretraining Respiratory Sound Rrepresentations Using Metadata and Contrastive Learning
+# Pretraining Respiratory Sound Representations Using Metadata and Contrastive Learning
 Authors : Ilyass Moummad, Nicolas Farrugia
 
 -----
